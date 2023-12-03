@@ -9,14 +9,12 @@ class Players extends Model
 {
     use HasFactory;
 
-    public function findByUserId(int $userId): int
+    public function findByUserId(int $userId): Players
     {
-        $player = $this->newModelQuery()
-            ->select('id')
+        return $this->newModelQuery()
+            ->select('*')
             ->where('user_id', '=', $userId)
             ->first()
         ;
-
-        return $player->id;
     }
 }

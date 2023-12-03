@@ -75,14 +75,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('cards', \App\Http\Controllers\CardsController::class);
 
     //USER DATA
-    Route::get('user-data', function (Request $request) {
-        return [
-            'id' => 1,
-            'username' => 'Test User',
-            'level' => 1,
-            'level_points' => '40/100',
-            'cards' => config('game.cards'),
-            'new_card_allowed' => true,
-        ];
-    });
+    Route::get('user-data', \App\Http\Controllers\PlayerController::class);
 });
