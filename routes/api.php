@@ -72,9 +72,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     //CARDS
-    Route::post('cards', function (Request $request) {
-        return response()->json();
-    });
+    Route::post('cards', \App\Http\Controllers\CardsController::class);
 
     //USER DATA
     Route::get('user-data', function (Request $request) {
