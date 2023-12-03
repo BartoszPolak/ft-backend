@@ -1,0 +1,27 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class PlayerSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $user = DB::table('users')
+            ->select('id')
+            ->orderBy('id', 'desc')
+            ->limit(1)
+            ->get()
+        ;
+
+        DB::table('players')->insert([
+            'user_id' => $user[0]->id,
+        ]);
+    }
+}
