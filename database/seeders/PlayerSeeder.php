@@ -17,11 +17,11 @@ class PlayerSeeder extends Seeder
             ->select('id')
             ->orderBy('id', 'desc')
             ->limit(1)
-            ->get()
+            ->first()
         ;
 
         DB::table('players')->insert([
-            'user_id' => $user[0]->id,
+            'user_id' => $user->id,
         ]);
     }
 }

@@ -17,7 +17,7 @@ class PlayerCardsSeeder extends Seeder
             ->select(['id'])
             ->orderBy('id', 'desc')
             ->limit(1)
-            ->get()
+            ->first()
         ;
 
         $cards = DB::table('cards')
@@ -27,7 +27,7 @@ class PlayerCardsSeeder extends Seeder
 
         foreach ($cards as $card) {
             DB::table('players_cards')->insert([
-                'player_id' => $player[0]->id,
+                'player_id' => $player->id,
                 'card_id' => $card->id
             ]);
         }
