@@ -33,6 +33,7 @@ class PlayersDuels extends Model
             ->leftJoin('players as opponent', 'opponent.id', '=', 'players_duels.opponent_id')
             ->where('players_duels.player_id', '=', $playerId)
             ->where('players_duels.finished', '=', 1)
+            ->orderBy('players_duels.id', 'desc')
             ->get()
         ;
     }
@@ -47,6 +48,26 @@ class PlayersDuels extends Model
             ])
             ->where('players_duels.player_id', '=', $playerId)
             ->where('players_duels.finished', '=', 0)
+            ->first()
+        ;
+
+        if ($duel !== null) {
+            $duel->status = ($duel->status === 0 ? 'active' : 'finished');
+        }
+
+        return $duel;
+    }
+
+    public function getLastDuelForPlayer(int $playerId): ?self
+    {
+        $duel = $this->newModelQuery()
+            ->select([
+                'players_duels.*',
+                'players_duels.player_points as your_points',
+                'players_duels.finished as status',
+            ])
+            ->where('players_duels.player_id', '=', $playerId)
+            ->orderBy('id', 'desc')
             ->first()
         ;
 

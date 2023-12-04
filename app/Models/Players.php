@@ -20,6 +20,12 @@ class Players extends Model
         'name',
     ];
 
+    public function getLevelMaxPoints(): int
+    {
+        $levels = config('game.player_levels');
+        $showNextLevelPoints = (($this->level + 1) > end($levels)) ? $this->level : ($this->level + 1);
+        return $levels[$showNextLevelPoints];
+    }
 
     public function findByUserId(int $userId): self
     {
@@ -38,6 +44,17 @@ class Players extends Model
                 'user_id' => null,
                 'level' => $level,
                 'name' => fake('en_US')->name(),
+            ])
+        ;
+    }
+
+    public function savePlayerProgress(Players $player): void
+    {
+        $this->newModelQuery()
+            ->where('id', '=', $player->id)
+            ->update([
+                'points' => $player->points,
+                'level' => $player->level,
             ])
         ;
     }

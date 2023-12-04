@@ -15,6 +15,7 @@ class DuelService
         private readonly NewOpponentService $newOpponentService,
         private readonly PlayerCardsService $playerCardsService,
         private readonly PlayersCards $playersCards,
+        private readonly PlayerAdvancementService $playerAdvancementService,
     ) {
     }
 
@@ -29,7 +30,7 @@ class DuelService
 
     public function getActiveWithCardsForPlayer(int $playerId): array
     {
-        $activeDuel = $this->getActiveDuel($playerId);
+        $activeDuel = $this->playersDuels->getLastDuelForPlayer($playerId);
         if ($activeDuel === null) {
             throw new \InvalidArgumentException('Missing active duel for player');
         }
@@ -48,7 +49,6 @@ class DuelService
     public function playerPlayedCard(int $playerId, int $cardId): void
     {
         $activeDuel = $this->getActiveDuel($playerId);
-
         if ($activeDuel === null) {
             throw new \InvalidArgumentException('Missing active duel for player');
         }
@@ -60,18 +60,32 @@ class DuelService
 
         $opponentCard = $this->playersCards->getRandomCardForPlayer($activeDuel->opponent_id);
 
-        $activeDuel->round++;
-        $activeDuel->your_points += $playerCard->power;
-        $activeDuel->opponent_points += $opponentCard->power;
-        if ($activeDuel->round === self::MAX_ROUNDS) {
-            $activeDuel->finished = 1;
-            $activeDuel->won = ($activeDuel->player_points > $activeDuel->opponent_points);
+        $this->updateDuel($activeDuel, $playerCard, $opponentCard);
+
+        if ($activeDuel->finished === 1 && $activeDuel->won === 1) {
+            var_dump('player won!');
+            $this->playerAdvancementService->playerWonGame($playerId);
         }
-        $this->playersDuels->updateDuel($activeDuel);
     }
 
     private function getActiveDuel(int $playerId): ?PlayersDuels
     {
         return $this->playersDuels->findActiveForPlayer($playerId);
+    }
+
+    private function updateDuel(
+        PlayersDuels $activeDuel,
+        PlayersCards $playerCard,
+        PlayersCards $opponentCard,
+    ): void {
+        $activeDuel->round++;
+        $activeDuel->your_points += $playerCard->power;
+        $activeDuel->opponent_points += $opponentCard->power;
+        if ($activeDuel->round > self::MAX_ROUNDS) {
+            $activeDuel->finished = 1;
+            $activeDuel->won = (int) ($activeDuel->player_points > $activeDuel->opponent_points);
+        }
+
+        $this->playersDuels->updateDuel($activeDuel);
     }
 }

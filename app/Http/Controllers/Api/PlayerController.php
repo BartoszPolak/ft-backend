@@ -21,14 +21,13 @@ class PlayerController extends Controller
         $user = $request->user();
         $player = $this->players->findByUserId($user->id);
 
-        $levels = config('game.player_levels');
-        $playerLevelMaxPoints = $levels[$player->level];
+
 
         return response()->json([
             'id' => $user->id,
             'username' => $user->name,
             'level' => $player->level,
-            'level_points' => $player->points . '/' . $playerLevelMaxPoints,
+            'level_points' => $player->points . '/' . $player->getLevelMaxPoints(),
             'cards' => $this->playerCardsService->getAllForPlayer($player->id),
             'new_card_allowed' => (bool) ($player->new_cards > 0),
         ]);
