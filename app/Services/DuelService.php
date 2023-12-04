@@ -83,7 +83,7 @@ class DuelService
         $activeDuel->opponent_points += $opponentCard->power;
         if ($activeDuel->round > self::MAX_ROUNDS) {
             $activeDuel->finished = 1;
-            $activeDuel->won = (int) ($activeDuel->player_points > $activeDuel->opponent_points);
+            $activeDuel->won = (int) ($activeDuel->your_points > $activeDuel->opponent_points);
         }
 
         $this->playersDuels->updateDuel($activeDuel);
