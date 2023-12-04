@@ -30,9 +30,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('duels/active', [PlayerDuelController::class, 'getActiveDuel']);
 
     //User has just selected a card
-    Route::post('duels/action', function (Request $request) {
-        return response()->json();
-    });
+    Route::post('duels/action', [PlayerDuelController::class, 'playerPlayedCard']);
 
     //DUELS HISTORY
     Route::get('duels', [PlayerDuelController::class, 'getPastDuels']);

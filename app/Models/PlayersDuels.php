@@ -41,9 +41,8 @@ class PlayersDuels extends Model
     {
         $duel = $this->newModelQuery()
             ->select([
-                'players_duels.round',
+                'players_duels.*',
                 'players_duels.player_points as your_points',
-                'players_duels.opponent_points',
                 'players_duels.finished as status',
             ])
             ->where('players_duels.player_id', '=', $playerId)
@@ -65,6 +64,20 @@ class PlayersDuels extends Model
             ->insert([
                 'player_id' => $playerId,
                 'opponent_id' => $opponentId,
+            ])
+        ;
+    }
+
+    public function updateDuel(PlayersDuels $duel): void
+    {
+        $this->newModelQuery()
+            ->where('id', '=', $duel->id)
+            ->update([
+                'round' => $duel->round,
+                'player_points' => $duel->your_points,
+                'opponent_points' => $duel->opponent_points,
+                'finished' => $duel->finished,
+                'won' => $duel->won,
             ])
         ;
     }

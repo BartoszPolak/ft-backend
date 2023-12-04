@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Requests\PlayedCardRequest;
 use App\Models\Players;
 use App\Models\PlayersDuels;
 use App\Services\DuelService;
@@ -42,8 +43,16 @@ class PlayerDuelController extends Controller
         return response()->json($duel);
     }
 
-    public function playerPlayedCard(Request $request): JsonResponse
+    public function playerPlayedCard(PlayedCardRequest $request): JsonResponse
     {
+        $cardId = $request->validated('id');
+        $player = $this->players->findByUserId($request->user()->id);
 
+        $this->duelService->playerPlayedCard(
+            playerId: $player->id,
+            cardId: $cardId
+        );
+
+        return response()->json([]);
     }
 }
