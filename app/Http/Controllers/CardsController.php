@@ -20,10 +20,10 @@ class CardsController extends Controller
     public function __invoke(Request $request): JsonResponse
     {
         $cardId = $this->randomCardService->pickRandomCard();
-        $playerId = $this->players->findByUserId($request->user()->id);
+        $player = $this->players->findByUserId($request->user()->id);
 
         $this->playerCardsService->addForPlayer(
-            playerId: $playerId,
+            playerId: $player->id,
             cardId: $cardId
         );
 
