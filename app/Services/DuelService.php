@@ -63,7 +63,6 @@ class DuelService
         $this->updateDuel($activeDuel, $playerCard, $opponentCard);
 
         if ($activeDuel->finished === 1 && $activeDuel->won === 1) {
-            var_dump('player won!');
             $this->playerAdvancementService->playerWonGame($playerId);
         }
     }

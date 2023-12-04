@@ -54,6 +54,7 @@ class Players extends Model
             ->update([
                 'points' => $player->points,
                 'level' => $player->level,
+                'new_cards' => $player->new_cards,
             ])
         ;
     }
