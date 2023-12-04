@@ -26,10 +26,7 @@ class PlayerAdvancementService
             }
         }
 
-        if ($newPlayerLevel !== $player->level) {
-
-            var_dump('advanced', $levels);
-
+        if ($newPlayerLevel > $player->level) {
             $player->points -= $levels[$newPlayerLevel];
             $player->level = $newPlayerLevel;
         }

@@ -20,11 +20,10 @@ class Players extends Model
         'name',
     ];
 
-    public function getLevelMaxPoints(): int
+    public function getLevelMaxPoints(): ?int
     {
         $levels = config('game.player_levels');
-        $showNextLevelPoints = (($this->level + 1) > end($levels)) ? $this->level : ($this->level + 1);
-        return $levels[$showNextLevelPoints];
+        return $levels[($this->level + 1)] ?? null;
     }
 
     public function findByUserId(int $userId): self

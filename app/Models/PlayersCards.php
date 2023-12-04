@@ -24,12 +24,15 @@ class PlayersCards extends Model
 
     public function getRandomCardForPlayer(int $playerId): PlayersCards
     {
-        return $this->newModelQuery()
+        $cards = $this->newModelQuery()
             ->select('cards.*')
             ->join('cards', 'cards.id', '=', 'players_cards.card_id')
             ->where('players_cards.player_id', '=', $playerId)
-            ->orderByRaw('RANDOM()')
-            ->first()
+            ->get()
         ;
+
+        $cardsOnHand = count($cards);
+
+        return $cards[rand(1, $cardsOnHand)];
     }
 }
