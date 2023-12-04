@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\Authorization\LoginController;
+use App\Http\Controllers\Api\CardsController;
+use App\Http\Controllers\Api\PlayerController;
+use App\Http\Controllers\Api\PlayerDuelController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\Authorization\LoginController;
-use \App\Http\Controllers\PlayerDuelController;
-use \App\Http\Controllers\CardsController;
-use \App\Http\Controllers\PlayerController;
 
 /*
 |--------------------------------------------------------------------------
