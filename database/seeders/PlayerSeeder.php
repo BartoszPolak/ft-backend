@@ -14,7 +14,7 @@ class PlayerSeeder extends Seeder
     public function run(): void
     {
         $user = DB::table('users')
-            ->select('id')
+            ->select('id', 'name')
             ->orderBy('id', 'desc')
             ->limit(1)
             ->first()
@@ -22,6 +22,7 @@ class PlayerSeeder extends Seeder
 
         DB::table('players')->insert([
             'user_id' => $user->id,
+            'name' => $user->name,
         ]);
     }
 }
