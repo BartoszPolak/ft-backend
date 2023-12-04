@@ -3,13 +3,10 @@
 namespace Models;
 
 use App\Models\Players;
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Tests\CreatesApplication;
+use Tests\TestCase;
 
-class PlayersTest extends BaseTestCase
+class PlayersTest extends TestCase
 {
-    use CreatesApplication;
-
     /**
      * @dataProvider getMaxPointsDataProvider
      */
