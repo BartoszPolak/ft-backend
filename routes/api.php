@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Authorization\LoginController;
+use \App\Http\Controllers\PlayerDuelController;
+use \App\Http\Controllers\CardsController;
+use \App\Http\Controllers\PlayerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,38 +45,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     //DUELS HISTORY
-    Route::get('duels', function (Request $request) {
-        return [
-            [
-                "id" => 1,
-                "player_name" => "Jan Kowalski",
-                "opponent_name" => "Piotr Nowak",
-                "won" => 0
-            ],
-            [
-                "id" => 2,
-                "player_name" => "Jan Kowalski",
-                "opponent_name" => "Tomasz Kaczyński",
-                "won" => 1
-            ],
-            [
-                "id" => 3,
-                "player_name" => "Jan Kowalski",
-                "opponent_name" => "Agnieszka Tomczak",
-                "won" => 1
-            ],
-            [
-                "id" => 4,
-                "player_name" => "Jan Kowalski",
-                "opponent_name" => "Michał Bladowski",
-                "won" => 1
-            ],
-        ];
-    });
+    Route::get('duels', [PlayerDuelController::class, 'getPastDuels']);
 
     //CARDS
-    Route::post('cards', \App\Http\Controllers\CardsController::class);
+    Route::post('cards', CardsController::class);
 
     //USER DATA
-    Route::get('user-data', \App\Http\Controllers\PlayerController::class);
+    Route::get('user-data', PlayerController::class);
 });
