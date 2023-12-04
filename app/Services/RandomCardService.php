@@ -12,6 +12,20 @@ class RandomCardService
     ) {
     }
 
+    /**
+     * @param int $cardsAmount
+     * @return int[]
+     */
+    public function pickRandomDeck(int $cardsAmount): array
+    {
+        $cardsIds = [];
+        for ($i = 0; $i < $cardsAmount; $i++) {
+            $cardsIds[] = $this->pickRandomCard();
+        }
+
+        return $cardsIds;
+    }
+
     public function pickRandomCard(): int
     {
         $cards = $this->cards->select()->get();
